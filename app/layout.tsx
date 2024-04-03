@@ -1,6 +1,5 @@
 import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google"
- 
 import { cn } from "@/lib/utils"
  
 const fontSans = FontSans({
@@ -32,7 +31,7 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <main className="min-h-screen flex flex-col items-center">
+        <main className="min-h-screen flex flex-col items-center bg-gradient-to-br from-purple-200 to-purple-400">
           {children}
         </main>
       </body>
