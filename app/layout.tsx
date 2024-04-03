@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/react"
 import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google"
 import { cn } from "@/lib/utils"
@@ -25,6 +26,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <Analytics />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",

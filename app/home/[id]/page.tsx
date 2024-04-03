@@ -18,10 +18,11 @@ import {
   CardBody,
   CardItem,
 } from "@/components/ui/PopOutCard"
+import ImageUpload from "@/components/ui/ImageUpload"
 import TestBigImage from "@/images/test_bg_img.jpg"
-import TestThumbnail from "@/images/test_tn.jpg"
+import ImageSelector from "@/components/ui/ImageSelector";
 
-
+console.log(process.env.NEXT_PUBLIC_IMAGE_BUCKET)
 const Skeleton = () => (
   <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-500 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
 );
@@ -101,7 +102,7 @@ const items = [
   },
 ];
 
-export default async function ProtectedPage() {
+export default async function HomePage() {
   const supabase = createClient();
 
   const {
@@ -115,10 +116,6 @@ export default async function ProtectedPage() {
   return (
     <div className="flex-1 w-full flex flex-col gap-10 items-center">
       <div className="w-full">
-        <div className="py-6 font-bold bg-purple-950 text-center">
-          This is a protected page that you can only see as an authenticated
-          user
-        </div>
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
           <h1>Continue Your Journey</h1>
@@ -138,7 +135,7 @@ export default async function ProtectedPage() {
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            Make things float in air
+            March
           </CardItem>
           <CardItem
             as="p"
@@ -155,6 +152,7 @@ export default async function ProtectedPage() {
               className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
               alt="thumbnail"
             />
+            {/* <ImageSelector/> */}
           </CardItem>
           <div className="flex justify-between items-center mt-20">
             <CardItem
@@ -164,14 +162,15 @@ export default async function ProtectedPage() {
               target="__blank"
               className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
             >
-              Try now →
+              Edit Cover →
             </CardItem>
             <CardItem
               translateZ={20}
-              as="button"
+              as={Link}
+              href={`/planner/${user.id}`}
               className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
             >
-              Sign up
+              View Month
             </CardItem>
           </div>
         </CardBody>
@@ -182,7 +181,7 @@ export default async function ProtectedPage() {
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            Make things float in air
+            April
           </CardItem>
           <CardItem
             as="p"
@@ -208,14 +207,15 @@ export default async function ProtectedPage() {
               target="__blank"
               className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
             >
-              Try now →
+              Edit Cover →
             </CardItem>
             <CardItem
               translateZ={20}
-              as="button"
+              as={Link}
+              href={`/planner/${user.id}`}
               className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
             >
-              Sign up
+              View Month
             </CardItem>
           </div>
         </CardBody>
@@ -226,7 +226,7 @@ export default async function ProtectedPage() {
             translateZ="50"
             className="text-xl font-bold text-neutral-600 dark:text-white"
           >
-            Make things float in air
+            May
           </CardItem>
           <CardItem
             as="p"
@@ -252,14 +252,15 @@ export default async function ProtectedPage() {
               target="__blank"
               className="px-4 py-2 rounded-xl text-xs font-normal dark:text-white"
             >
-              Try now →
+              Edit Cover →
             </CardItem>
             <CardItem
               translateZ={20}
-              as="button"
+              as={Link}
+              href={`/planner/${user.id}`}
               className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
             >
-              Sign up
+              View Month
             </CardItem>
           </div>
         </CardBody>
