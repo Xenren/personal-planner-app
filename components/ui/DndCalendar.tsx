@@ -1,22 +1,22 @@
 "use client";
 
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
-import { Calendar, View, momentLocalizer } from 'react-big-calendar';
+import { Calendar, View, momentLocalizer, stringOrDate } from 'react-big-calendar';
 import moment from 'moment';
 import withDragAndDrop from 'react-big-calendar/lib/addons/dragAndDrop';
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import useCalendarEvents from '@/lib/supabase/useCalendarEvents';
 import { getUsername } from '@/lib/supabase/client';
-import ConfirmationModal from './ConfirmationModal';
-
+import EventModal from './EventModal';
+import { CalendarEvent, UpdateCalendarEventParams } from '@/lib/supabase/useCalendarEvents'
 
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
 const DndCalendar = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [eventToDelete, setEventToDelete] = useState(null);
+  const [eventToEdit, setEventToEdit] = useState<CalendarEvent | null>(null);
 
   const [userId, setUserId] = useState("");
 
@@ -32,13 +32,23 @@ const DndCalendar = () => {
 
   const { events, addEvent, updateEvent, deleteEvent, loading } = useCalendarEvents(userId);
 
-  const onEventResize = (data: { event: any; start: any; end: any; }) => {
+  const onEventResize = (data: { event: any; start: stringOrDate; end: stringOrDate; }) => {
+    console.log(data.event)
     updateEvent(data);
   };
 
-  const onEventDrop = (data: { event: any; start: any; end: any; }) => {
+  const onEventDrop = (data: { event: any; start: stringOrDate; end: stringOrDate; }) => {
+    console.log(data.event)
     updateEvent(data);
   };
+
+  const handleUpdateEvent =async (event: CalendarEvent, title: string, description: string) => {
+    const updateParams: UpdateCalendarEventParams = {event: event, title: title, description: description}
+    console.log(event, title, description)
+    await updateEvent(updateParams);
+    setEventToEdit(null);
+  };
+  
 
   // add a test event
   const handleAddEvent = () => {
@@ -53,17 +63,18 @@ const DndCalendar = () => {
 
   // Function to call when an event is clicked
   const handleEventClick = (event: any) => {
-    // Set the event to delete and open the modal
-    setEventToDelete(event);
+    setEventToEdit(event);
+    console.log(eventToEdit)
     setIsModalOpen(true);
   };
 
   // Function to call when confirming deletion
   const handleConfirmDelete = async (event: { event_id: string; }| null) => {
+    console.log(event)
     await deleteEvent(event?.event_id ?? null);
     
     setIsModalOpen(false);
-    setEventToDelete(null);
+    setEventToEdit(null);
   };
 
   // State to control the current view
@@ -87,8 +98,8 @@ const DndCalendar = () => {
           defaultView="month"
           events={events.map((event) => ({
             ...event,
-            start: new Date(event.start),
-            end: new Date(event.end),
+            start: new Date(event.start ?? moment().toDate()),
+            end: new Date(event.end ?? moment().toDate()),
           }))}
           localizer={localizer}
           onEventDrop={onEventDrop}
@@ -100,11 +111,12 @@ const DndCalendar = () => {
           view={currentView}
         />
       )}
-      <ConfirmationModal
+      <EventModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        eventToDelete={eventToDelete}
+        eventToEdit={eventToEdit}
         onConfirmDelete={handleConfirmDelete}
+        onUpdateEvent={handleUpdateEvent}
       />
     </div>
   );

@@ -3,27 +3,36 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import { PostgrestError, } from '@supabase/supabase-js';
+import { stringOrDate } from 'react-big-calendar';
 
 const supabase = createClient();
 
-interface Event {
+export interface CalendarEvent {
     event_id: string;
     user_id: string;
-    title: string;
+    title?: string;
     description?: string;
-    start: string; // timestamptz
-    end: string; // timestamptz
+    start?: string; // timestamptz
+    end?: string; // timestamptz
     all_day?: boolean;
   }
 
+export type UpdateCalendarEventParams = {
+    event: CalendarEvent;
+    start?: stringOrDate; // Including both types to handle direct Date objects and string representations
+    end?: stringOrDate;
+    title?: string;
+    description?: string;
+  };
+
 const useCalendarEvents = (userId: string) => {
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<CalendarEvent[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchEvents = async () => {
       setLoading(true);
-      const { data, error }: { data: Event[] | null; error: PostgrestError | null } = await supabase
+      const { data, error }: { data: CalendarEvent[] | null; error: PostgrestError | null } = await supabase
         .from(process.env.NEXT_PUBLIC_EVENT_DB!)
         .select('*')
         .eq('user_id', userId);
@@ -41,7 +50,7 @@ const useCalendarEvents = (userId: string) => {
     }
   }, [userId]);
 
-  const addEvent = async (newEvent: Omit<Event, 'event_id' | 'user_id'>) => {
+  const addEvent = async (newEvent: Omit<CalendarEvent, 'event_id' | 'user_id'>) => {
     const { data, error } = await supabase
       .from(process.env.NEXT_PUBLIC_EVENT_DB!)
       .insert([newEvent])
@@ -58,24 +67,27 @@ const useCalendarEvents = (userId: string) => {
     }
   };
 
-  const updateEvent = async (updatedEventData: any) => {
-    const { event: {event_id, description, all_day, title, user_id }, start, end } = updatedEventData;
+  const updateEvent = async (updatedEventData: UpdateCalendarEventParams) => {
+    const { event, start, end, title, description } = updatedEventData;
 
     
-    const updatedEvent: Partial<Event> = {
-        event_id: event_id,
-        user_id: user_id,
-        title: title,
-        description: description,
-        all_day: all_day ?? false,
-        start: start.toISOString(),
-        end: end.toISOString()
+    // Prepare the object for the update, including only the fields that are provided.
+    const updatedEvent: CalendarEvent = {
+      event_id: event.event_id,
+      user_id: event.user_id,
+      ...(title && { title: title ?? event.title ?? 'Default Title'}), // Use provided title or fall back to the event's current title
+      ...(description && { description: description ?? event.description }), // Same for description
+      ...(start && { start: new Date(start).toISOString() }), // Convert to ISO string if provided
+      ...(end && { end: new Date(end).toISOString() }), // Convert to ISO string if provided
+      all_day: event.all_day ?? false, // Default to false if undefined
     };
+
+    console.log(updatedEvent)
 
     const { error } = await supabase
       .from(process.env.NEXT_PUBLIC_EVENT_DB!)
       .update(updatedEvent)
-      .match({ event_id: event_id });
+      .match({ event_id: updatedEvent.event_id });
 
     if (!error) {
         console.log("Event Updated Successfully")
