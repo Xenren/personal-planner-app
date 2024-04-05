@@ -25,9 +25,6 @@ export default async function Index() {
             Hello, please create an account to view the demo and show your interest!</h1>
         </main>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-      </footer>
     </div>
   );
 }

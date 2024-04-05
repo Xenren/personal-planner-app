@@ -23,7 +23,7 @@ export default async function Planner() {
             <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
             <Link
               href={`/home/${user.id}`}
-              className="px-4 py-2 rounded-md border border-black bg-neutral-100 text-neutarl-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
+              className="px-4 py-2 rounded-md border border-black bg-neutral-100 text-neutral-700 text-sm hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition duration-200"
             >
               Home
             </Link>
@@ -31,8 +31,17 @@ export default async function Planner() {
             </div>
           </nav>
         </div>
+
         <div>
+          <main>
             <DndCalendar />
+          </main>
+        </div>
+
+        <div>
+          <footer>
+            
+          </footer>
         </div>
       </>
   );

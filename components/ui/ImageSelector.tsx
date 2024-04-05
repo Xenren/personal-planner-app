@@ -1,39 +1,36 @@
 "use client"
+
 import React, { useEffect, useState } from 'react';
+import { useImage } from './ImageContext'; // Adjust the path as necessary
 import fetchImages from '@/lib/supabase/fetchImages';
 
 const ImageSelector: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
-  const [selectedImage, setSelectedImage] = useState<string>('');
+  const { setSelectedImage } = useImage();
 
   useEffect(() => {
-    fetchImages().then(setImages);
+    const loadImages = async () => {
+      const fetchedImages = await fetchImages();
+      setImages(fetchedImages);
+    };
+    loadImages();
   }, []);
 
   const handleImageSelect = (imageUrl: string) => {
     setSelectedImage(imageUrl);
-    // update the existing image with the selected one
   };
 
   return (
     <div>
-      <div>
-        {images.map((imageUrl, index) => (
-          <img
-            key={index}
-            src={imageUrl}
-            alt={`Uploaded image ${imageUrl}`}
-            onClick={() => handleImageSelect(imageUrl)}
-            style={{ width: 100, cursor: 'pointer' }}
-          />
-        ))}
-      </div>
-      {selectedImage && (
-        <div>
-          <h2>Selected Image:</h2>
-          <img src={selectedImage} alt="Selected" style={{ width: 200 }} />
-        </div>
-      )}
+      {images.map((imageUrl, index) => (
+        <img
+          key={index}
+          src={imageUrl}
+          alt={`Uploaded image ${index}`}
+          onClick={() => handleImageSelect(imageUrl)}
+          style={{ width: 100, cursor: 'pointer' }}
+        />
+      ))}
     </div>
   );
 };
