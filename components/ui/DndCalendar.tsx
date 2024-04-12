@@ -42,13 +42,13 @@ const DndCalendar = () => {
     updateEvent(data);
   };
 
-  const handleUpdateEvent =async (event: CalendarEvent, title: string, description: string) => {
-    const updateParams: UpdateCalendarEventParams = {event: event, title: title, description: description}
+  const handleUpdateEvent = async (event: CalendarEvent, title: string, description: string) => {
+    const updateParams: UpdateCalendarEventParams = { event: event, title: title, description: description }
     console.log(event, title, description)
     await updateEvent(updateParams);
     setEventToEdit(null);
   };
-  
+
 
   // add a test event
   const handleAddEvent = () => {
@@ -69,10 +69,10 @@ const DndCalendar = () => {
   };
 
   // Function to call when confirming deletion
-  const handleConfirmDelete = async (event: { event_id: string; }| null) => {
+  const handleConfirmDelete = async (event: { event_id: string; } | null) => {
     console.log(event)
     await deleteEvent(event?.event_id ?? null);
-    
+
     setIsModalOpen(false);
     setEventToEdit(null);
   };
@@ -83,7 +83,7 @@ const DndCalendar = () => {
   // Handle view change
   const onView = useCallback((newView: View) => setView(newView), [setView])
 
-  const {defaultDate} = useMemo(() => ({
+  const { defaultDate } = useMemo(() => ({
     defaultDate: moment().toDate()
   }), [])
 
@@ -118,6 +118,7 @@ const DndCalendar = () => {
         onConfirmDelete={handleConfirmDelete}
         onUpdateEvent={handleUpdateEvent}
       />
+      <div></div>
     </div>
   );
 };

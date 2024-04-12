@@ -11,7 +11,6 @@ const ImageUpload: React.FC = () => {
 
     if (!user) {
       redirect("/login");
-      return;
     }
 
     if (!event.target.files || event.target.files.length === 0) {
