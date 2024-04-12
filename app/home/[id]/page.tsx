@@ -144,7 +144,7 @@ export default async function HomePage() {
             translateZ="60"
             className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
-            Hover over this card to unleash the power of CSS perspective
+          Seize the day!
           </CardItem>
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
@@ -185,7 +185,7 @@ export default async function HomePage() {
             translateZ="60"
             className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
-            Hover over this card to unleash the power of CSS perspective
+          Everday is a chance to be great!
           </CardItem>
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
@@ -226,7 +226,7 @@ export default async function HomePage() {
             translateZ="60"
             className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
           >
-            Hover over this card to unleash the power of CSS perspective
+          Face your challenges head and relish in your achievements!
           </CardItem>
           <CardItem translateZ="100" className="w-full mt-4">
             <Image
