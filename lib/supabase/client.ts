@@ -14,8 +14,8 @@ export const getUsername = async () => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return "user not found"
+    return "user";
   } else {
-    return user.id
+    return user.id;
   }
-}
+};

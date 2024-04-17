@@ -118,7 +118,7 @@ export default async function HomeCards() {
               translateZ="60"
               className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
             >
-              Face your challenges head and relish in your achievements!
+              Face your challenges head on and relish in your achievements!
             </CardItem>
             <CardItem translateZ="100" className="w-full mt-4">
               <Image
@@ -148,4 +148,3 @@ export default async function HomeCards() {
     </div>
   );
 }
-
