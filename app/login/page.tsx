@@ -30,9 +30,9 @@ export default function Login({
     if (data && data.user && data.user.id) {
       return redirect(`/home/${data.user.id}`);
     } else {
-      redirect("/")
-    };
-  }
+      redirect("/");
+    }
+  };
 
   const signUp = async (formData: FormData) => {
     "use server";
