@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import React, { useEffect, useState } from 'react';
-import { useImage } from './ImageContext'; // Adjust the path as necessary
-import fetchImages from '@/lib/supabase/fetchImages';
+import React, { useEffect, useState } from "react";
+import { useImage } from "@/components/ui/ImageContext";
+import fetchImages from "@/lib/supabase/fetchImages";
 
 const ImageSelector: React.FC = () => {
   const [images, setImages] = useState<string[]>([]);
@@ -28,7 +28,7 @@ const ImageSelector: React.FC = () => {
           src={imageUrl}
           alt={`Uploaded image ${index}`}
           onClick={() => handleImageSelect(imageUrl)}
-          style={{ width: 100, cursor: 'pointer' }}
+          style={{ width: 100, cursor: "pointer" }}
         />
       ))}
     </div>
