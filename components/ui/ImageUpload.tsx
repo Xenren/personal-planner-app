@@ -1,20 +1,24 @@
-import React from 'react';
-import { createClient } from '@/lib/supabase/client';
+import React from "react";
+import { createClient } from "@/lib/supabase/client";
 import { redirect } from "next/navigation";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 
 const ImageUpload: React.FC = () => {
-  const uploadFile = async (event: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+  const uploadFile = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): Promise<void> => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       redirect("/login");
     }
 
     if (!event.target.files || event.target.files.length === 0) {
-      alert('No file selected.');
+      alert("No file selected.");
       return;
     }
 
@@ -27,12 +31,12 @@ const ImageUpload: React.FC = () => {
       .upload(filePath, file);
 
     if (error) {
-      alert('Error uploading file.');
+      alert("Error uploading file.");
       console.log(error);
       return;
     }
 
-    alert('File uploaded successfully!');
+    alert("File uploaded successfully!");
   };
 
   return (

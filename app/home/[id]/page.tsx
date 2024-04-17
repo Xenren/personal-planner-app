@@ -1,9 +1,6 @@
-import Image from "next/image"
-import Link from "next/link"
 import AuthButton from "@/components/ui/AuthButton";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import moment from 'moment';
 import { BentoGrid, BentoGridItem } from "@/components/ui/BentoGrid";
 import {
   IconArrowWaveRightUp,
@@ -14,14 +11,7 @@ import {
   IconSignature,
   IconTableColumn,
 } from "@tabler/icons-react";
-import {
-  CardContainer,
-  CardBody,
-  CardItem,
-} from "@/components/ui/PopOutCard"
-import TestBigImage from "@/images/test_bg_img.jpg"
-import EditCoverModal from "@/components/ui/EditCoverModal";
-import { ImageProvider } from "@/components/ui/ImageContext";
+import HomeCards from "@/components/ui/HomeCards";
 
 const Skeleton = () => (
   <div className="flex flex-1 w-full h-full min-h-[6rem] rounded-xl bg-gradient-to-br from-neutral-500 dark:from-neutral-900 dark:to-neutral-800 to-neutral-100"></div>
@@ -104,6 +94,8 @@ const items = [
 ];
 
 export default async function HomePage() {
+  // const { selectedImage } = useImage();
+
   const supabase = createClient();
 
   const {
@@ -119,163 +111,39 @@ export default async function HomePage() {
       <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-          <h1>Continue Your Journey</h1>
+            <h1>Continue Your Journey</h1>
             <AuthButton />
           </div>
         </nav>
       </div>
 
       <div>
-        <h1 className="font-bold text-4xl text-center mb-4">The Future is Now</h1>
+        <h1 className="font-bold text-4xl text-center mb-4">
+          The Future is Now
+        </h1>
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-2 lg:gap-1">
-      <ImageProvider>
-      <CardContainer className="inter-var w-auto max-w-96 md:hover:pr-4">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-          <CardItem
-            translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
-          >
-            {moment().subtract(1, 'months').format('MMMM')}
-          </CardItem>
-          <CardItem
-            as="p"
-            translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
-          >
-          Seize the day!
-          </CardItem>
-          <CardItem translateZ="100" className="w-full mt-4">
-            <Image
-              src={TestBigImage}
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-              alt="thumbnail"
-            />
-          </CardItem>
-          <div className="flex justify-between items-center mt-20">
-            <CardItem
-              translateZ={20}
-            >
-              <EditCoverModal />
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as={Link}
-              href={`/planner/${user.id}`}
-              className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-            >
-              View Calendar
-            </CardItem>
-          </div>
-        </CardBody>
-      </CardContainer>
-      <CardContainer className="inter-var max-w-96 lg:mx-1 lg:hover:px-1">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-          <CardItem
-            translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
-          >
-            {moment().format('MMMM')}
-          </CardItem>
-          <CardItem
-            as="p"
-            translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
-          >
-          Everday is a chance to be great!
-          </CardItem>
-          <CardItem translateZ="100" className="w-full mt-4">
-            <Image
-              src={TestBigImage}
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-              alt="thumbnail"
-            />
-          </CardItem>
-          <div className="flex justify-between items-center mt-20">
-            <CardItem
-              translateZ={20}
-            >
-              <EditCoverModal />
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as={Link}
-              href={`/planner/${user.id}`}
-              className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-            >
-              View Calendar
-            </CardItem>
-          </div>
-        </CardBody>
-      </CardContainer>
-      <CardContainer className="inter-var max-w-96 lg:hover:pl-4">
-        <CardBody className="bg-gray-50 relative group/card  dark:hover:shadow-2xl dark:hover:shadow-emerald-500/[0.1] dark:bg-black dark:border-white/[0.2] border-black/[0.1] sm:w-[30rem] h-auto rounded-xl p-6 border  ">
-          <CardItem
-            translateZ="50"
-            className="text-xl font-bold text-neutral-600 dark:text-white"
-          >
-            {moment().add(1, 'months').format('MMMM')}
-          </CardItem>
-          <CardItem
-            as="p"
-            translateZ="60"
-            className="text-neutral-500 text-sm max-w-sm mt-2 dark:text-neutral-300"
-          >
-          Face your challenges head and relish in your achievements!
-          </CardItem>
-          <CardItem translateZ="100" className="w-full mt-4">
-            <Image
-              src={TestBigImage}
-              height="1000"
-              width="1000"
-              className="h-60 w-full object-cover rounded-xl group-hover/card:shadow-xl"
-              alt="thumbnail"
-            />
-          </CardItem>
-          <div className="flex justify-between items-center mt-20">
-            <CardItem
-              translateZ={20}
-            >
-              <EditCoverModal />
-            </CardItem>
-            <CardItem
-              translateZ={20}
-              as={Link}
-              href={`/planner/${user.id}`}
-              className="px-4 py-2 rounded-xl bg-black dark:bg-white dark:text-black text-white text-xs font-bold"
-            >
-              View Calendar
-            </CardItem>
-          </div>
-        </CardBody>
-      </CardContainer>
-      </ImageProvider>
-      </div>
-
       <div className="flex-1 flex flex-col gap-10 opacity-100 max-w-4xl px-3 md:mx-16">
         <main className="flex-1 flex flex-col gap-6 ">
-          <h2 className="font-bold text-4xl text-center mb-4">Your Year at a Glance</h2>
+          <HomeCards />
+          <h2 className="font-bold text-4xl text-center mb-4">
+            Your Year at a Glance
+          </h2>
           <BentoGrid className="max-w-4xl mx-auto z-50">
             {items.map((item, i) => (
-            <BentoGridItem
-              key={i}
-              title={item.title}
-              description={item.description}
-              header={item.header}
-              icon={item.icon}
-              className={i === 3 || i === 6 ? "md:col-span-1" : ""}
-            />
+              <BentoGridItem
+                key={i}
+                title={item.title}
+                description={item.description}
+                header={item.header}
+                icon={item.icon}
+                className={i === 3 || i === 6 ? "md:col-span-1" : ""}
+              />
             ))}
-            </BentoGrid>
+          </BentoGrid>
         </main>
       </div>
       <footer>
-      {/* <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs"> */}
+        {/* <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs"> */}
       </footer>
     </div>
   );
