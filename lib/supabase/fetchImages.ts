@@ -1,35 +1,21 @@
-import { createClient } from '@/lib/supabase/client';
+import { createClient } from "@/lib/supabase/client";
 
 const supabase = createClient();
+const bucketName = process.env.NEXT_PUBLIC_IMAGE_BUCKET!;
 
-async function fetchImages() {
-    const bucketName = process.env.NEXT_PUBLIC_IMAGE_BUCKET!;
-    let { data: fileList, error } = await supabase.storage
-      .from(bucketName)
-      .list('', { limit: 100, offset: 0 });
-  
-    if (error || !fileList) {
-      console.error('Error fetching images or fileList is null:', error);
-      return [];
-    }
-  
-    const urls = await Promise.all(
-      fileList.map(async (file) => {
-        const { data } = supabase.storage
-          .from(bucketName)
-          .getPublicUrl(file.name);
-  
-        if (!data) {
-          console.error('Error getting image URL:', );
-          return '';
-        }
-  
-        // Accessing publicUrl from the data object
-        return data.publicUrl;
-      })
-    );
-  
-    return urls.filter(url => url); // Filter out any empty strings in case of errors
+async function fetchImages(userId: string) {
+  const { data, error } = await supabase.storage.from(bucketName).list(userId, {
+    limit: 100,
+    offset: 0,
+    sortBy: { column: "name", order: "asc" },
+  });
+
+  if (error || !data) {
+    console.error("Error fetching images or fileList is null:", error);
+    return [];
   }
+
+  return data;
+}
 
 export default fetchImages;

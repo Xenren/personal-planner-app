@@ -1,13 +1,12 @@
 import AuthButton from "@/components/ui/AuthButton";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
-import { BentoGrid, BentoGridItem } from "@/components/ui/BentoGrid";
+// import { BentoGrid, BentoGridItem } from "@/components/ui/BentoGrid";
 import HomeCards from "@/components/ui/HomeCards";
-import { BentoItems } from "@/components/ui/BentoItems";
+// import { BentoItems } from "@/components/ui/BentoItems";
+import { ImageProvider } from "@/components/ui/ImageContext";
 
 export default async function HomePage() {
-  // const { selectedImage } = useImage();
-
   const supabase = createClient();
 
   const {
@@ -30,14 +29,14 @@ export default async function HomePage() {
       </div>
 
       <div>
-        <h1 className="font-bold text-4xl text-center mb-4">
-          The Future is Now
-        </h1>
+        <h1 className="font-bold text-4xl text-center">The Future is Now</h1>
       </div>
       <div className="flex-1 flex flex-col gap-10 opacity-100 max-w-4xl px-3 md:mx-16">
         <main className="flex-1 flex flex-col gap-6 ">
-          <HomeCards />
-
+          <ImageProvider>
+            <HomeCards />
+          </ImageProvider>
+          {/*
           <h2 className="font-bold text-4xl text-center mb-4">
             Your Year at a Glance
           </h2>
@@ -53,6 +52,7 @@ export default async function HomePage() {
               />
             ))}
           </BentoGrid>
+          */}
         </main>
       </div>
       <footer>
