@@ -38,8 +38,10 @@ const DndCalendar = () => {
     getUserID();
   }, []);
 
+
+  
   const { events, addEvent, updateEvent, deleteEvent, loading } =
-    useCalendarEvents(userId);
+    useCalendarEvents(userId || "");
 
   const onEventResize = (data: {
     event: any;
@@ -108,10 +110,19 @@ const DndCalendar = () => {
   // Handle view change
   const onView = useCallback((newView: View) => setView(newView), [setView]);
 
+
+  const [currentDate, setCurrentDate] = useState(moment().toDate());
+
+  const onNavigate = (newDate: Date) => {
+    console.log("Navigating to:", newDate);
+    setCurrentDate(newDate);
+  };
+
   const { defaultDate } = useMemo(
     () => ({
       defaultDate: moment().toDate(),
     }),
+
     [],
   );
 
@@ -128,6 +139,8 @@ const DndCalendar = () => {
         <p>Loading...</p>
       ) : (
         <DnDCalendar
+          date={currentDate} // Ensure this is set
+          onNavigate={onNavigate}
           defaultDate={defaultDate}
           defaultView="month"
           events={events.map((event) => ({
